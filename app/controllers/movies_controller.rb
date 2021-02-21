@@ -35,7 +35,7 @@ class MoviesController < ApplicationController
       redirect_to sort: session[:sort], ratings: session[:ratings] and return
     end
     
-    @movies = @movies = @movies.order(@sort)
+    @movies = @movies.order(@sort)
   end
 
   def new

@@ -7,7 +7,23 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    @all_ratings = Movie.all_ratings
+    sort = params[:sort] || session[:sort]
+    @movie_ratings = params[:ratings] || session[:ratings] || Hash[@all_ratings.map {|rating| [rating, rating]}]
+    
+    case sort
+    when 'title'
+      ordering, @title_class = {:title => :asc}, 'hilite'
+    when 'release_date'
+      ordering, @date_class = {:release_date => :asc}, 'hilite'
+    end
+    
+    if params[:sort] != session[:sort] or params[:ratings] != session[:ratings]
+      session[:sort] = sort
+      session[:ratings] = @movie_ratings
+      redirect_to :sort => sort, :ratings => @movie_ratings and return
+    end
+    @movies = Movie.where(rating: @movie_ratings.keys).order(ordering)
   end
 
   def new

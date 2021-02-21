@@ -7,7 +7,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @all_ratings = Movie.all_ratings
+    @all_ratings = ['G','PG','PG-13','R']
     @movie_ratings = params[:ratings] || session[:ratings] || Hash[@all_ratings.map {|rating| [rating, 1]}]
     
     sort = params[:sort] || session[:sort]
@@ -35,7 +35,7 @@ class MoviesController < ApplicationController
       redirect_to sort: session[:sort], ratings: session[:ratings] and return
     end
     
-    @movies = Movie.accompany_ratings(@movie_ratings).order(order)
+    @movies = @movies = @movies.order(@sort)
   end
 
   def new

@@ -7,6 +7,11 @@ class MoviesController < ApplicationController
   end
 
   def index
+    if params[:ratings].nil? and params[:commit] 
+      session.delete(:movie_ratings) 
+      session.delete(:sort) 
+    end
+    
     @all_ratings = Movie.all_ratings
     @movie_ratings = params[:ratings] || session[:ratings] || Hash[@all_ratings.map {|rating| [rating, 1]}]
     

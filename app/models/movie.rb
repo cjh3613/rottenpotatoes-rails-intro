@@ -3,7 +3,7 @@ class Movie < ActiveRecord::Base
        return pluck(:rating).uniq
     end
     
-    def self.with_ratings(ratings)
+    def self.accompany_ratings(ratings)
        where(rating: ratings.keys)
     end
 end
